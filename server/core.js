@@ -25,7 +25,9 @@ const createGame = (playersCount) => {
     const game = {
         deck: _.slice(playersCount * 4 + 1, shuffled.length, shuffled),
         players: _.times((i) => ({
-            id: i + 1, cards: _.slice(i * 4, (i + 1) * 4, shuffled)
+            id: i + 1,
+            cards: _.slice(i * 4, (i + 1) * 4, shuffled),
+            points: 0,
         }), playersCount),
         board: [
             {
@@ -34,6 +36,7 @@ const createGame = (playersCount) => {
                 card: shuffled[playersCount * 4],
             },
         ],
+        currentPlayer: 1,
     };
     return game;
 };
@@ -167,6 +170,7 @@ const addLineToBoard = (game, activePlayer, line) => {
             return player;
         }, game.players),
         board: _.concat(game.board, line),
+        currentPlayer: game.players[activePlayer.id % game.players.length].id
     };
 };
 
